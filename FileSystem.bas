@@ -91,6 +91,31 @@ Public Function getFileSize(fileNamePath As String) As Variant
 End Function
 
 '
+'更新日時を返す
+'
+'無効パスの場合は、#VALUE! を返す
+'
+Public Function getDateLastModified(fileNamePath As String) As Variant
+
+    Dim fso As Object
+    
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    
+    '有効パス確認
+    If Not (fso.FileExists(fileNamePath)) Then '無効パスの場合
+        getDateLastModified = CVErr(xlErrValue) '#VALUE!を返す
+        Exit Function
+        
+    End If
+    
+    getDateLastModified = fso.GetFile(fileNamePath).DateLastModified
+    
+    Set fso = Nothing
+    
+End Function
+
+
+'
 'ディレクトリかどうか(TRUE/FALSE)を返す
 '
 Public Function isDirectory(ByVal path As String) As Variant
